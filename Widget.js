@@ -14,67 +14,87 @@
 // limitations under the License.
 ///////////////////////////////////////////////////////////////////////////
 define(['dojo/_base/declare', 'jimu/BaseWidget'],
-  function(declare, BaseWidget) {
+    function (declare, BaseWidget) {
     //To create a widget, you need to derive from BaseWidget.
     return declare([BaseWidget], {
-      // Custom widget code goes here
+        // Custom widget code goes here
 
-      baseClass: 'jimu-widget-mywidget',
+        baseClass: 'jimu-widget-mywidget',
 
-      //this property is set by the framework when widget is loaded.
-      //name: 'CustomWidget',
+        //this property is set by the framework when widget is loaded.
+        //name: 'CustomWidget',
 
 
-      //methods to communication with app container:
+        //methods to communication with app container:
 
-      // postCreate: function() {
-      //   this.inherited(arguments);
-      //   console.log('postCreate');
-      // },
+        // postCreate: function() {
+        //   this.inherited(arguments);
+        //   console.log('postCreate');
+        // },
 
-       startup: function() {
-        this.inherited(arguments);
-        this.mapIdNode.innerHTML = 'map id:' + this.map.id;
-		
-        console.log('startup');
-       },
+        startup: function () {
+            this.inherited(arguments);
 
-       onOpen: function(){
-		   //https://your.mapspace.com/index.html?workspace=Default_penta&srs=EPSG:3008&zoom=5&y=6408565.071726729&x=196196.8112791335
-		   this.mapExtentNode.innerHTML = 'https://your.mapspace.com/index.html?workspace=Default_penta&srs=EPSG:3008&zoom=5&y=' + (this.map.extent.ymin + this.map.extent.ymax)/2 + '&x=' + (this.map.extent.xmin + this.map.extent.xmax)/2;
-         console.log('onOpen');
-       },
+            console.log('startup');
+        },
 
-      // onClose: function(){
-      //   console.log('onClose');
-      // },
+        onOpen: function () {
 
-      // onMinimize: function(){
-      //   console.log('onMinimize');
-      // },
+            var zoom = this.map.getZoom();
+            var MapSpaceZoom = 0;
+            if (zoom >= 20) {
+                MapSpaceZoom = 5;
+            } else if (zoom < 20 && zoom >= 18) {
+                MapSpaceZoom = 4;
+            } else if (zoom < 18 && zoom >= 17) {
+                MapSpaceZoom = 3;
+            } else if (zoom < 17 && zoom >= 15) {
+                MapSpaceZoom = 2;
+            } else {
+                MapSpaceZoom = 1;
+            }
 
-      // onMaximize: function(){
-      //   console.log('onMaximize');
-      // },
 
-      // onSignIn: function(credential){
-      //   /* jshint unused:false*/
-      //   console.log('onSignIn');
-      // },
+            var MapSpaceURL = 'https://your.mapspace.com/index.html?workspace=Default_penta&srs=EPSG:3008&zoom=' + MapSpaceZoom + '&y=' + (this.map.extent.ymin + this.map.extent.ymax) / 2 + '&x=' + (this.map.extent.xmin + this.map.extent.xmax) / 2;
 
-      // onSignOut: function(){
-      //   console.log('onSignOut');
-      // }
+            window.open(MapSpaceURL, '_blank');
+			var panel = this.getPanel();
+			panel.panelManager.closePanel(panel);      
 
-      // onPositionChange: function(){
-      //   console.log('onPositionChange');
-      // },
+            console.log('onOpen');
+            console.log(MapSpaceZoom);
+        },
 
-      // resize: function(){
-      //   console.log('resize');
-      // }
+         onClose: function(){
+           console.log('onClose');
+         },
 
-      //methods to communication between widgets:
+        // onMinimize: function(){
+        //   console.log('onMinimize');
+        // },
+
+        // onMaximize: function(){
+        //   console.log('onMaximize');
+        // },
+
+        // onSignIn: function(credential){
+        //   /* jshint unused:false*/
+        //   console.log('onSignIn');
+        // },
+
+        // onSignOut: function(){
+        //   console.log('onSignOut');
+        // }
+
+        // onPositionChange: function(){
+        //   console.log('onPositionChange');
+        // },
+
+        // resize: function(){
+        //   console.log('resize');
+        // }
+
+        //methods to communication between widgets:
 
     });
-  });
+});
