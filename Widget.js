@@ -41,7 +41,7 @@ define(['dojo/_base/declare', 'jimu/BaseWidget'],
 
        onOpen: function(){
 		   //https://your.mapspace.com/index.html?workspace=Default_penta&srs=EPSG:3008&zoom=5&y=6408565.071726729&x=196196.8112791335
-		   this.mapExtentNode.innerHTML = 'https://your.mapspace.com/index.html?workspace=Default_penta&srs=EPSG:3006&zoom=5&y=' + (this.map.extent.ymin + this.map.extent.ymax)/2 + '&x=' + (this.map.extent.xmin + this.map.extent.xmax)/2;
+		   this.mapExtentNode.innerHTML = 'https://your.mapspace.com/index.html?workspace=Default_penta&srs=EPSG:3008&zoom=5&y=' + (this.map.extent.ymin + this.map.extent.ymax)/2 + '&x=' + (this.map.extent.xmin + this.map.extent.xmax)/2;
          console.log('onOpen');
        },
 
