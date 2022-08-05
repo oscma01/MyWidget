@@ -39,30 +39,36 @@ define(['dojo/_base/declare', 'jimu/BaseWidget'],
         },
 
         onOpen: function () {
-
-            var zoom = this.map.getZoom();
+			//Ställ zoom-parametern för MapSpace URL:en
+			var scale = this.map.getScale();
             var MapSpaceZoom = 0;
-            if (zoom >= 20) {
+            if (scale <= 1000) {
                 MapSpaceZoom = 5;
-            } else if (zoom < 20 && zoom >= 18) {
+            } else if (scale > 1000 && scale <= 4000) {
                 MapSpaceZoom = 4;
-            } else if (zoom < 18 && zoom >= 17) {
+            } else if (scale > 4000 && scale <= 7500) {
                 MapSpaceZoom = 3;
-            } else if (zoom < 17 && zoom >= 15) {
+            } else if (scale > 7500 && scale <= 20000) {
                 MapSpaceZoom = 2;
             } else {
                 MapSpaceZoom = 1;
             }
-
-
-            var MapSpaceURL = 'https://your.mapspace.com/index.html?workspace=Default_penta&srs=EPSG:3008&zoom=' + MapSpaceZoom + '&y=' + (this.map.extent.ymin + this.map.extent.ymax) / 2 + '&x=' + (this.map.extent.xmin + this.map.extent.xmax) / 2;
-
-            window.open(MapSpaceURL, '_blank');
+			
+			
+			
+			//Hämta centerpunkt och wkid i kartan
+			var wkid = this.map.spatialReference.wkid;
+			var center = this.map.extent.getCenter();
+			
+			//Skapa URL till MapSpace och öppna den i ny flik.
+			var MapSpaceURL = 'https://your.mapspace.com/index.html?workspace=Default_penta&srs=EPSG:' + wkid + '&zoom=' + MapSpaceZoom + '&y=' + center.y + '&x=' + center.x;
+			window.open(MapSpaceURL, '_blank');
+			
+			//Stäng Widgeten
 			var panel = this.getPanel();
 			panel.panelManager.closePanel(panel);      
 
             console.log('onOpen');
-            console.log(MapSpaceZoom);
         },
 
          onClose: function(){
